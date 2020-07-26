@@ -11,5 +11,6 @@ Include 4 images of Mars' hemispheres from a scraping friendly website.
 - Use Bootstrap to style the web app
 
 ### Workflow
-In order to scrape the four hemisphere images, I created an empty dictionary (image_list) to append the results there, then performed a for loop that could iterate through the appropriate image indexes (4,8) to obtain the their URLs and store them in the image_list dictionary. Before the loop could move to the next photo, I had to call the browser.back() function so that it could continue to run without errors after it click's into each image's specific URL and included the return call to conclude the dictionary scrape.
+In order to scrape the four hemisphere images, I created an empty list (hemis_images) to append the results there, then performed a for loop that could iterate through the appropriate image indexes (4,8) to scrape the their URLs and titles and store them as a dictionary as {title:url}. Before the loop could move to the next photo, I had to call the browser.back() function so that it could continue to run without errors.
 
+![alt text](https://github.com/elenaguilarv/Mission-to-Mars/blob/master/challenge/mars_webpage.PNG)
