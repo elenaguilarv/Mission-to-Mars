@@ -3,10 +3,12 @@ from splinter import Browser
 from bs4 import BeautifulSoup as soup
 import pandas as pd
 import datetime as dt
+from webdriver_manager.chrome import ChromeDriverManager
 
 def scrape_all():
     # Initiate headless driver for deployment
-    browser = Browser("chrome", executable_path="chromedriver", headless=True)
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=True)
     
     news_title, news_paragraph = mars_news(browser)
     
@@ -114,7 +116,8 @@ def hemisphere(browser):
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     browser.visit(url)      
     
-    image_list = []
+    hemis_images = []
+
     for i in range(4,8):
 
         # Find and click the image
@@ -124,14 +127,16 @@ def hemisphere(browser):
         # Parse the resulting html with soup
         html = browser.html
         img_soup = soup(html, 'html.parser')
-
-        img_urls = img_soup.find('a', text='Sample').get("href") # get pulls the link to the image
-    
-        image_list.append(img_urls)
+        
+        # Store image URLs and titles in a list
+        img_url = img_soup.find('a', text='Sample').get("href") # get pulls the link to the image
+        img_title = img_soup.find('h2','title').text
+        
+        hemis_images.append({"title": img_title, "url": img_url})
         
         browser.back()
         
-    return image_list
+    return hemis_images
 
 if __name__ == "__main__":
 
